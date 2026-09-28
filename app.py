@@ -27,21 +27,21 @@ st.markdown("""
     }
 
     /* Enterprise Metric Cards */
-    div[data-testid="metric-container"] {
+    div[data-testid="stMetric"] {
         background-color: #ffffff;
         border: 1px solid #e2e8f0;
         padding: 16px 20px;
         border-radius: 8px;
         box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.02);
     }
-    div[data-testid="metric-container"] label {
+    div[data-testid="stMetric"] label {
         color: #64748b !important;
         font-size: 0.8rem !important;
         font-weight: 500;
         text-transform: uppercase;
         letter-spacing: 0.05em;
     }
-    div[data-testid="metric-container"] [data-testid="stMetricValue"] {
+    div[data-testid="stMetric"] [data-testid="stMetricValue"] {
         color: #0f172a !important;
         font-size: 1.75rem !important;
         font-weight: 600;
