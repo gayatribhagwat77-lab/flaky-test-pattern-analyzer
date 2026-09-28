@@ -1,0 +1,22 @@
+run_id,test_name,status,timestamp,environment,duration
+1,LoginTest,PASS,2026-09-01 09:00:00,Chrome,2.1
+2,LoginTest,FAIL,2026-09-01 09:05:00,Chrome,5.8
+3,LoginTest,PASS,2026-09-01 09:10:00,Chrome,2.2
+4,LoginTest,FAIL,2026-09-01 09:15:00,Firefox,6.1
+5,LoginTest,PASS,2026-09-01 09:20:00,Chrome,2.0
+6,LoginTest,PASS,2026-09-01 09:25:00,Chrome,2.1
+7,LoginTest,FAIL,2026-09-01 09:30:00,Firefox,6.3
+8,LoginTest,PASS,2026-09-01 09:35:00,Chrome,1.9
+9,PaymentTest,FAIL,2026-09-01 09:00:00,Chrome,1.5
+10,PaymentTest,FAIL,2026-09-01 09:05:00,Chrome,1.4
+11,PaymentTest,FAIL,2026-09-01 09:10:00,Firefox,4.5
+12,PaymentTest,FAIL,2026-09-01 09:15:00,Chrome,1.5
+13,SearchTest,PASS,2026-09-01 09:00:00,Chrome,0.8
+14,SearchTest,PASS,2026-09-01 09:05:00,Chrome,0.9
+15,SearchTest,PASS,2026-09-01 09:10:00,Firefox,0.8
+16,SearchTest,PASS,2026-09-01 09:15:00,Chrome,0.9
+17,DatabaseTest,PASS,2026-09-01 09:00:00,Chrome,3.2
+18,DatabaseTest,FAIL,2026-09-01 09:05:00,Firefox,7.5
+19,DatabaseTest,PASS,2026-09-01 09:10:00,Chrome,3.1
+20,DatabaseTest,FAIL,2026-09-01 09:15:00,Firefox,7.8
+21,DatabaseTest,PASS,2026-09-01 09:20:00,Chrome,3.0
