@@ -70,6 +70,12 @@ st.markdown("""
         letter-spacing: -0.02em;
         margin-bottom: 0.2rem;
     }
+
+    h1 a,
+    h2 a,
+    h3 a {
+        display: none !important;
+    }
     
     h2 {
         color: #1e293b;
