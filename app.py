@@ -89,7 +89,12 @@ st.markdown("""
         background-color: #0f172a;
         border-right: 1px solid #1e293b;
     }
-    
+    section[data-testid="stSidebar"] [data-testid="stWidgetLabel"] p,
+    section[data-testid="stSidebar"] [data-testid="stWidgetLabel"] label,
+    section[data-testid="stSidebar"] [data-testid="stWidgetLabel"] span {
+        color: #f8fafc !important;
+        font-size: 0.95rem !important;
+}
     
     section[data-testid="stSidebar"] h2 {
         color: #f8fafc !important;
