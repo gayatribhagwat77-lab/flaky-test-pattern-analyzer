@@ -181,8 +181,32 @@ elif df is not None:
         # Section2:Score Table
         st.header("Ranked Flakiness Score Table")
         st.markdown("Detailed breakdown ordered by computed flakiness severity and core failure metrics.")
-        st.dataframe( metrics_df[['test_name', 'total_runs', 'passes', 'failures', 'failure_rate', 'switches', 'severity', 'score']], use_container_width=True, hide_index=True )
-        
+        st.dataframe(
+            metrics_df[
+                [
+                    'test_name',
+                    'total_runs',
+                    'passes',
+                    'failures',
+                    'failure_rate',
+                    'switches',
+                    'score',
+                    'severity'
+                ]
+            ],
+            column_config={
+                "test_name": "Test Name",
+                "total_runs": "Total Runs",
+                "passes": "Passes",
+                "failures": "Failures",
+                "failure_rate": "Failure Rate",
+                "switches": "Switches",
+                "score": "Flakiness Score",
+                "severity": "Severity"
+            },
+            hide_index=True,
+            use_container_width=True
+        )
         # Section 3:Detailed Pattern & AI Probable-Cause Deep Dive 
         st.header("Detailed Pattern & AI Probable-Cause Deep Dive")
 
