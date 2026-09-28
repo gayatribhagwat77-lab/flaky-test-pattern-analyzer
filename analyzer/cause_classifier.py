@@ -4,43 +4,33 @@ from ollama import chat
 def classify_cause_with_ai(context):
 
     prompt = f"""
-    You are analyzing an automated software test for flakiness.
+Analyze this automated test execution data:
 
-    Analyze the following execution data:
+{context}
 
-    {context}
+Choose ONE probable cause:
+Timing
+Environment
+Ordering
+Intermittent
+Not Applicable
 
-    Your task is ONLY to assign a probable cause for the observed flaky behavior.
+Return ONLY these 3 lines. Do not add anything else:
 
-    Choose exactly ONE:
-    - Timing
-    - Environment
-    - Ordering
-    - Intermittent
+Cause: [one cause]
+Confidence: [XX]%
+Explanation: [maximum 10 words]
 
-    Use the available evidence:
-    1. PASS/FAIL execution pattern
-    2. Failure rate
-    3. Average pass duration
-    4. Average fail duration
-    5. Environment failure information
-
-    Important rules:
-    - Alternating PASS/FAIL indicates flaky behavior, but does NOT by itself prove Ordering.
-    - If failed executions take significantly longer than successful executions, consider Timing.
-    - If failures are isolated to a particular environment, consider Environment.
-    - Use Ordering only when the provided evidence specifically suggests execution-order dependency.
-    - Use Intermittent when there is mixed behavior but no stronger evidence for Timing, Environment, or Ordering.
-    - This is a probable cause, NOT a confirmed root cause.
-    - Do not invent evidence that is not present in the data.
-    - If the test has all PASS or all FAIL results, return Not Applicable.
-
-    Return exactly:
-
-    Cause: [Timing/Environment/Ordering/Intermittent/Not Applicable]
-    Confidence: [XX]%
-    Explanation: [1-2 short sentences based only on the provided data]
-    """
+Rules:
+- Alternating PASS/FAIL alone does NOT prove Ordering.
+- Longer failure duration suggests Timing.
+- Failures isolated to one environment suggest Environment.
+- If the chosen cause is Environment, mention the specific environment name
+  from the provided data.
+- Use Ordering only when execution-order dependency is supported.
+- Use Intermittent when no stronger cause is supported.
+- This is a probable cause, not a confirmed root cause.
+"""
 
     try:
         response = chat(
