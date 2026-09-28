@@ -129,7 +129,10 @@ if error:
     st.error(error)
 
 elif df is not None:
-        metrics_df = calculate_metrics(df)
+        if df.empty:
+            st.error("The uploaded CSV is empty. Please provide test-run records.")
+        else:
+            metrics_df = calculate_metrics(df)
 
         # Section 1:Overall Summary Metrics
         st.header("Overall Test Stability Summary")
