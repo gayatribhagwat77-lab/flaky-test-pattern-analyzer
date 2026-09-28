@@ -134,133 +134,147 @@ elif df is not None:
         else:
             metrics_df = calculate_metrics(df)
 
-        # Section 1:Overall Summary Metrics
-        st.header("Overall Test Stability Summary")
-        total_tests = len(metrics_df)
-        
-        flaky_tests = len(
-            metrics_df[
+            # Section 1:Overall Summary Metrics
+            st.header("Overall Test Stability Summary")
+            total_tests = len(metrics_df)
+            
+            flaky_tests = len(
+                metrics_df[
+                    (metrics_df['score'] >= 40) &
+                    (metrics_df['passes'] > 0) &
+                    (metrics_df['failures'] > 0)
+                ]
+            )
+            stable_tests = len(
+                metrics_df[
+                    (metrics_df['passes'] == metrics_df['total_runs']) &
+                    (metrics_df['failures'] == 0)
+                ]
+            )
+            consistently_failing_tests = len(
+                metrics_df[
+                    (metrics_df['failures'] == metrics_df['total_runs']) &
+                    (metrics_df['passes'] == 0)
+                ]
+            )
+            avg_score = metrics_df['score'].mean()
+            
+            col1, col2, col3, col4 = st.columns(4)
+            col1.metric("Total Unique Tests", total_tests)
+            col2.metric("Stable Tests", stable_tests)
+            col3.metric("Flaky/Unstable Tests", flaky_tests)
+            col4.metric("Avg Stability Risk Score", f"{round(avg_score, 1)}/100")
+            
+            # Textual stability pattern summary
+            unstable_names = metrics_df[
                 (metrics_df['score'] >= 40) &
                 (metrics_df['passes'] > 0) &
                 (metrics_df['failures'] > 0)
-            ]
-        )
-        stable_tests = len(
-            metrics_df[
-                (metrics_df['passes'] == metrics_df['total_runs']) &
-                (metrics_df['failures'] == 0)
-            ]
-        )
-        consistently_failing_tests = len(
-            metrics_df[
-                (metrics_df['failures'] == metrics_df['total_runs']) &
-                (metrics_df['passes'] == 0)
-            ]
-        )
-        avg_score = metrics_df['score'].mean()
-        
-        col1, col2, col3, col4 = st.columns(4)
-        col1.metric("Total Unique Tests", total_tests)
-        col2.metric("Stable Tests", stable_tests)
-        col3.metric("Flaky/Unstable Tests", flaky_tests)
-        col4.metric("Avg Stability Risk Score", f"{round(avg_score, 1)}/100")
-        
-        # Textual stability pattern summary
-        unstable_names = metrics_df[
-            (metrics_df['score'] >= 40) &
-            (metrics_df['passes'] > 0) &
-            (metrics_df['failures'] > 0)
-        ]['test_name'].tolist()
-        
-        st.markdown("<div style='margin-top: 1rem;'></div>", unsafe_allow_html=True)
-        if flaky_tests > 0:
-            st.info(f"**Stability Pattern Summary:** {flaky_tests} out of {total_tests} test cases exhibit flaky behavior ({', '.join(unstable_names)}). Failures correlate strongly with environment variations or execution duration anomalies.")
-        else:
-            st.success("**Stability Pattern Summary:** All test cases are currently stable with consistent outcomes.")
+            ]['test_name'].tolist()
+            
+            st.markdown("<div style='margin-top: 1rem;'></div>", unsafe_allow_html=True)
+            if flaky_tests > 0:
+                st.info(f"**Stability Pattern Summary:** {flaky_tests} out of {total_tests} test cases exhibit flaky behavior ({', '.join(unstable_names)}). Failures correlate strongly with environment variations or execution duration anomalies.")
+            else:
+                st.success("**Stability Pattern Summary:** All test cases are currently stable with consistent outcomes.")
 
-        # Section2:Score Table
-        st.header("Ranked Flakiness Score Table")
-        st.markdown("Detailed breakdown ordered by computed flakiness severity and core failure metrics.")
-        st.dataframe(
-            metrics_df[
-                [
-                    'test_name',
-                    'total_runs',
-                    'passes',
-                    'failures',
-                    'failure_rate',
-                    'switches',
-                    'score',
-                    'severity'
-                ]
-            ],
-            column_config={
-                "test_name": "Test Name",
-                "total_runs": "Total Runs",
-                "passes": "Passes",
-                "failures": "Failures",
-                "failure_rate": "Failure Rate",
-                "switches": "Switches",
-                "score": "Flakiness Score",
-                "severity": "Severity"
-            },
-            hide_index=True,
-            use_container_width=True
-        )
-        # Section 3:Detailed Pattern & AI Probable-Cause Deep Dive 
-        st.header("Detailed Pattern & AI Probable-Cause Deep Dive")
+            # Section2:Score Table
+            st.header("Ranked Flakiness Score Table")
+            st.markdown("Detailed breakdown ordered by computed flakiness severity and core failure metrics.")
+            st.dataframe(
+                metrics_df[
+                    [
+                        'test_name',
+                        'total_runs',
+                        'passes',
+                        'failures',
+                        'failure_rate',
+                        'switches',
+                        'score',
+                        'severity'
+                    ]
+                ],
+                column_config={
+                    "test_name": "Test Name",
+                    "total_runs": "Total Runs",
+                    "passes": "Passes",
+                    "failures": "Failures",
+                    "failure_rate": "Failure Rate",
+                    "switches": "Switches",
+                    "score": "Flakiness Score",
+                    "severity": "Severity"
+                },
+                hide_index=True,
+                use_container_width=True
+            )
+            # Section 3:Detailed Pattern & AI Probable-Cause Deep Dive 
+            st.header("Detailed Pattern & AI Probable-Cause Deep Dive")
 
-        selected_test = st.selectbox(
-            "Select a Test Case for Probable-Cause Analysis",
-            metrics_df['test_name'].tolist()
-        )
+            selected_test = st.selectbox(
+                "Select a Test Case for Probable-Cause Analysis",
+                metrics_df['test_name'].tolist()
+            )
 
-        if selected_test:
-            row = metrics_df[metrics_df['test_name'] == selected_test].iloc[0]
-            context = extract_pattern_context(row)
+            if selected_test:
+                row = metrics_df[metrics_df['test_name'] == selected_test].iloc[0]
+                context = extract_pattern_context(row)
 
-            c1, c2 = st.columns([1, 1], gap="large")
+                c1, c2 = st.columns([1, 1], gap="large")
 
-            with c1:
-                st.subheader("Execution Pattern Metrics")
-                st.code(context['pattern'], language="text")
-                st.metric("Failure Rate", context['failure_rate'])
-                st.write(f"**Avg Pass Duration:** {context['avg_pass_duration']}s")
-                st.write(f"**Avg Fail Duration:** {context['avg_fail_duration']}s")
-                
+                with c1:
+                    st.subheader("Execution Pattern Metrics")
+                    st.code(context['pattern'], language="text")
+                    st.metric("Failure Rate", context['failure_rate'])
+                    st.write(f"**Avg Pass Duration:** {context['avg_pass_duration']}s")
+                    st.write(f"**Avg Fail Duration:** {context['avg_fail_duration']}s")
+                    
 
-            with c2:
-                st.subheader("AI Probable-Cause Tag")
-                with st.spinner("Analyzing execution traces with AI..."):
-                    ai_output = classify_cause_with_ai(context)
+                with c2:
+                    st.subheader("AI Probable-Cause Tag")
 
-                st.info(ai_output)
-                
-        # Section 4:Chart
-        st.header("Flakiness Distribution Chart")
-        fig = px.bar(
-            metrics_df,
-            x='test_name',
-            y='score',
-            color='severity',
-            title="Flakiness Risk Score by Test Case",
-            color_discrete_map={
-                "CRITICAL": "#0f172a",
-                "HIGH": "#334155",
-                "MEDIUM": "#64748b",
-                "LOW": "#cbd5e1"
-            },
-            template="plotly_white"
-        )
-        fig.update_layout(
-            xaxis_title="Test Name",
-            yaxis_title="Risk Score",
-            margin=dict(t=40, b=40, l=40, r=40),
-            font=dict(
-                family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto",
-                size=12
-            ),
-            plot_bgcolor="#ffffff",
-            paper_bgcolor="#ffffff"
-        )
-        st.plotly_chart(fig, use_container_width=True)
+                    if row['passes'] == row['total_runs']:
+                        ai_output = (
+                            "Cause: Not Applicable. \n"
+                            "Confidence: 100%. \n"
+                            "Explanation: The test passed in all executions and shows stable behavior."
+                        )
+                    elif row['failures'] == row['total_runs']:
+                        ai_output = (
+                            "Cause: Not Applicable. \n"
+                            "Confidence: 100%. \n"
+                            "Explanation: The test failed in all executions and shows consistent failure rather than flaky behavior."
+                        )
+                    else:
+                        with st.spinner("Analyzing execution traces with AI..."):
+                            ai_output = classify_cause_with_ai(context)
+
+                    st.info(ai_output)
+                    
+            # Section 4:Chart
+            st.header("Flakiness Distribution Chart")
+            fig = px.bar(
+                metrics_df,
+                x='test_name',
+                y='score',
+                color='severity',
+                title="Flakiness Risk Score by Test Case",
+                color_discrete_map={
+                    "CRITICAL": "#0f172a",
+                    "HIGH": "#334155",
+                    "MEDIUM": "#64748b",
+                    "LOW": "#cbd5e1"
+                },
+                template="plotly_white"
+            )
+            fig.update_layout(
+                xaxis_title="Test Name",
+                yaxis_title="Risk Score",
+                margin=dict(t=40, b=40, l=40, r=40),
+                font=dict(
+                    family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto",
+                    size=12
+                ),
+                plot_bgcolor="#ffffff",
+                paper_bgcolor="#ffffff"
+            )
+            st.plotly_chart(fig, use_container_width=True)
