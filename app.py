@@ -95,7 +95,13 @@ st.markdown("""
         color: #f8fafc !important;
         font-size: 0.95rem !important;
 }
-    
+    section[data-testid="stSidebar"] [data-testid="stFileUploaderFileName"],
+    section[data-testid="stSidebar"] [data-testid="stFileUploaderFileData"],
+    section[data-testid="stSidebar"] [data-testid="stFileUploaderFileData"] small,
+    section[data-testid="stSidebar"] [data-testid="stFileUploaderFileData"] span,
+    section[data-testid="stSidebar"] [data-testid="stFileUploaderFileData"] div {
+        color: #f8fafc !important;
+}
     section[data-testid="stSidebar"] h2 {
         color: #f8fafc !important;
         border-bottom: none !important;
