@@ -57,6 +57,9 @@ st.markdown("""
     footer {
         display: none !important;
 }
+    [data-testid="stElementToolbar"] {
+    display: none !important;
+}
     
     
     /* Typography & Headers */
