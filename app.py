@@ -68,7 +68,7 @@ st.markdown("""
         font-weight: 600;
         font-size: 1.2rem !important;
         letter-spacing: -0.01em;
-        border-bottom: 1px solid #e2e8f0;
+        border-bottom: none;
         padding-bottom: 0.4rem;
         margin-top: 2rem;
         margin-bottom: 1rem;
