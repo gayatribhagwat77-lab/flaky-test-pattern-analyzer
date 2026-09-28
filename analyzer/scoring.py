@@ -18,12 +18,11 @@ def calculate_metrics(df):
         inconsistency = 1 - abs(pass_rate - failure_rate)
         
         # Calculate flakiness score
-        
-        score = (
-            0.4 * (failure_rate * 100)
-            + 0.4 * (switch_rate * 100)
-            + 0.2 * (inconsistency * 100)
-        )
+        if switches == 0:
+            score = 0
+        else:
+            score = (0.4 * (failure_rate * 100)) + (0.4 * (switch_rate * 100)) + (0.2 * (inconsistency * 100))
+
         
         score = round(min(max(score, 0), 100), 2)
         
