@@ -1,6 +1,6 @@
 # Flaky Test Pattern Analyzer
 
-An end-to-end hackathon solution built for SDETs and QA teams to analyze repeated automated test records, calculate transparent flakiness scores, identify unstable test patterns, and provide probable-cause insights using AI.
+An end-to-end hackathon solution built for SDETs and QA teams to analyze repeated test records, calculate transparent flakiness scores, identify unstable test patterns, and provide probable-cause insights using AI.
 
 ## Project Deliverables
 
