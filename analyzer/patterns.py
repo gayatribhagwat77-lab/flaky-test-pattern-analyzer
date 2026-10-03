@@ -8,5 +8,6 @@ def extract_pattern_context(row):
         "avg_pass_duration": row['avg_pass_dur'],
         "avg_fail_duration": row['avg_fail_dur'],
         "environment_failures": row['env_failures']
+
     }
     return context

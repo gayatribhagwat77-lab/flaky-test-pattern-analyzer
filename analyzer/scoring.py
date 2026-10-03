@@ -40,8 +40,12 @@ def calculate_metrics(df):
         avg_pass_dur = pass_durations.mean() if not pass_durations.empty else 0.0
         avg_fail_dur = fail_durations.mean() if not fail_durations.empty else 0.0
         
-        env_failures = group[group['status'] == 'FAIL']['environment'].value_counts().to_dict()
-        
+        env_failures = (
+            group.groupby('environment')['status']
+            .value_counts()
+            .unstack(fill_value=0)
+            .to_dict('index')
+        )        
         test_summaries.append({
             'test_name': test_name,
             'total_runs': total_runs,

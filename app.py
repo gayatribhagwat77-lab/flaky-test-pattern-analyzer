@@ -199,7 +199,7 @@ elif df is not None:
             
             st.markdown("<div style='margin-top: 1rem;'></div>", unsafe_allow_html=True)
             if flaky_tests > 0:
-                st.info(f"**Stability Pattern Summary:** {flaky_tests} out of {total_tests} test cases exhibit flaky behavior ({', '.join(unstable_names)}). Failures correlate strongly with environment variations or execution duration anomalies.")
+                st.info(f"**Stability Pattern Summary:** {flaky_tests} out of {total_tests} test cases exhibit flaky behavior ({', '.join(unstable_names)}).")
             else:
                 st.success("**Stability Pattern Summary:** All test cases are currently stable with consistent outcomes.")
 
