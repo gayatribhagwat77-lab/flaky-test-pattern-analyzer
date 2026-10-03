@@ -9,15 +9,11 @@
 ## 2. Test Scenarios
 1. Valid CSV Upload
 2. Invalid CSV Upload
-3. PASS/FAIL Pattern Detection
-4. Flaky Test Identification
-5. Stable Test Identification
-6. Consistently Failing Test Identification
-7. Flakiness Score Calculation
-8. Test Ranking
-9. Probable-Cause Classification
-10. Dashboard Display
-
+3. Test Pattern and Classification
+4. Multiple Test Analysis and Ranking
+5. Probable-Cause Classification
+6. Deep Dive Analysis
+7. Limited Execution History
 ---
 
 ## 3. Test Cases
