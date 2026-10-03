@@ -60,8 +60,21 @@ The invalid status is detected and an appropriate validation error is displayed.
 **Status:** Passed
 
 ---
+### TC04 – Invalid Timestamp
 
-### TC04 – Stable Test Pattern
+**Test Steps:**
+1. Prepare a CSV containing an invalid timestamp.
+2. Upload the CSV.
+3. Observe the validation result.
+
+**Expected Result:**  
+An appropriate timestamp validation error is displayed.
+
+**Status:** Passed
+
+---
+
+### TC05 – Stable Test Pattern
 
 **Test Steps:**
 1. Prepare test data with all executions having PASS status.
@@ -76,7 +89,7 @@ The test is identified as stable with a flakiness score of 0.
 
 ---
 
-### TC05 – Consistently Failing Test
+### TC06 – Consistently Failing Test
 
 **Test Steps:**
 1. Prepare test data with all executions having FAIL status.
@@ -91,7 +104,7 @@ The test is identified as consistently failing and has a flakiness score of 0.
 
 ---
 
-### TC06 – Flaky Test Identification
+### TC07 – Flaky Test Identification
 
 **Test Steps:**
 1. Prepare test data with changing PASS/FAIL results.
@@ -101,20 +114,6 @@ The test is identified as consistently failing and has a flakiness score of 0.
 
 **Expected Result:**  
 The test is identified as a flaky candidate and receives a non-zero flakiness score.
-
-**Status:** Passed
-
----
-
-### TC07 – Invalid Timestamp
-
-**Test Steps:**
-1. Prepare a CSV containing an invalid timestamp.
-2. Upload the CSV.
-3. Observe the validation result.
-
-**Expected Result:**  
-An appropriate timestamp validation error is displayed.
 
 **Status:** Passed
 
